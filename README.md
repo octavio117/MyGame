@@ -1,2 +1,2 @@
 # Mygame 
-This is my fist project on github
+This is my first project on github
