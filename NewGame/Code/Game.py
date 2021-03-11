@@ -14,21 +14,26 @@ WIDTH, HEIGHT = 900, 700
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 mario = model("Mario", pygame.image.load('/Users/octaviodelgado/Desktop/VS_Code/Python/NewGame/Images/Mario/SMB_Smallmario.png'), pygame.Rect(mario_pos, mario_size))
 mario.Scale(mario_size)
-floor = Block('floor', pygame.image.load('/Users/octaviodelgado/Desktop/VS_Code/Python/NewGame/Images/Floor_Block.png'), pygame.Rect(floor_pos, floor_size))
-floor.Scale(floor_size)
+floor_block = Block('floor', pygame.image.load('/Users/octaviodelgado/Desktop/VS_Code/Python/NewGame/Images/Floor_Block.png'), pygame.Rect((0,600), (900, 900)))
+floor_block.Scale(floor_size)
 gravity = 5
 
 def draw(M, B):
-    WIN.fill((255, 255, 255))
+    WIN.fill((3, 198, 252))
     WIN.blit(M.picture, (M.hitbox.x, M.hitbox.y))
-    WIN.blit(B.picture, (B.hitbox.x, B.hitbox.y))
+    for i in range(900):
+        if i % 50 == 0: 
+            WIN.blit(B.picture, (B.hitbox.x + i, B.hitbox.y))
+    for i in range(1000):
+        if i % 50 == 0:
+            WIN.blit(B.picture, (B.hitbox.x + i, B.hitbox.y + 50))
     pygame.display.flip()
 def Fall(M):
     M.hitbox.y += gravity
 running = True
 while running:    
     clock.tick(FPS)
-    if mario.hitbox.y != floor.hitbox.y - 50:
+    if not mario.hitbox.colliderect(floor_block.hitbox):
         Fall(mario)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -36,6 +41,7 @@ while running:
             pygame.quit()
     keys = pygame.key.get_pressed()
     mario.input_move(keys)
-    draw(mario, floor)
+    draw(mario, floor_block)
+
 
     
